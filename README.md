@@ -34,15 +34,15 @@ $ cat about.txt
 ### `$ ls ./projects --pinned`
 
 <p align="center">
-  <a href="https://github.com/brainnotfound401/blockchain"><img src="./card-blockchain.svg" width="49%" /></a>
+  <a href="https://github.com/brainnotfound401/Blockchain"><img src="./card-blockchain.svg" width="49%" /></a>
   <a href="https://github.com/brainnotfound401/kairos"><img src="./card-kairos.svg" width="49%" /></a>
 </p>
 <p align="center">
   <a href="https://github.com/brainnotfound401/Nitnation"><img src="./card-nit-nation.svg" width="49%" /></a>
-  <a href="https://github.com/brainnotfound401/easy-eyes"><img src="./card-easy-eyes.svg" width="49%" /></a>
+  <a href="https://github.com/brainnotfound401/Easy-Eyes-"><img src="./card-easy-eyes.svg" width="49%" /></a>
 </p>
 <p align="center">
-  <a href="https://github.com/brainnotfound401/assemble-26"><img src="./card-assemble-26.svg" width="49%" /></a>
+  <a href="https://github.com/brainnotfound401/Assemble-26"><img src="./card-assemble-26.svg" width="49%" /></a>
   <a href="https://github.com/brainnotfound401/KisanSetu"><img src="./card-kisan-setu.svg" width="49%" /></a>
 </p>
 
