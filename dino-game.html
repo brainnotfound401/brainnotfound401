@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>dino.run | Priyanshu Saxena</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #000; color: #ddd; min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background-image: radial-gradient(#1c1c1c 1px, transparent 1px); background-size: 28px 28px;
+    user-select: none; -webkit-user-select: none;
+  }
+  .win { width: min(920px, 96vw); border: 1px solid #333; border-radius: 14px; background: #080808; overflow: hidden; }
+  .bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid #2a2a2a; color: #777; font-size: 13px; }
+  .bar i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .bar span { margin: 0 auto; transform: translateX(-30px); }
+  canvas { display: block; width: 100%; height: auto; touch-action: manipulation; cursor: pointer; }
+  .foot { padding: 12px 16px; border-top: 1px solid #2a2a2a; font-size: 13px; color: #777; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  a { color: #fff; }
+</style>
+</head>
+<body>
+  <div class="win">
+    <div class="bar">
+      <i style="background:#eee"></i><i style="background:#999"></i><i style="background:#555"></i>
+      <span>priyanshu@github: ~/dino --play</span>
+    </div>
+    <canvas id="c" width="900" height="260"></canvas>
+    <div class="foot">
+      <div>SPACE / UP / TAP to jump &nbsp;|&nbsp; DOWN to duck</div>
+      <div><a href="https://github.com/brainnotfound401">&larr; back to my GitHub</a></div>
+    </div>
+  </div>
+
+<script>
+const cv = document.getElementById('c');
+const ctx = cv.getContext('2d');
+const W = cv.width, H = cv.height, GROUND = 210, P = 4;
+
+const DINO = [
+  "..........########","..........##.#####","..........########","..........########",
+  "..........#####...","..........#######.","#........#####....","##......######....",
+  "###...########....","##############....",".############.....","..##########......",
+  "...########.......","....######........"];
+const LEG_A = ["....##..##........","....#....##.......","....##............"];
+const LEG_B = ["....##..##........","....##...#........",".........##......."];
+const DUCK = [
+  "..........................","#.......############......","##....##############......",
+  "###################.######","#########################.",".########################.",
+  "..##################......","...####..#####...........","...##.....##.............",
+  "...###....###............"];
+const CACTI = [
+  ["...##...","...##...","#..##...","#..##..#","#..##..#","#..##..#","#####..#",".####..#","...#####","...####.","...##...","...##..."],
+  [".##..",".##.#","###.#","#####",".##..",".##..",".##..",".##.."],
+  [".##...##.",".##.#.##.","###.#.###","#####.###",".##...##.",".##...##.",".##...##.",".##...##."]
+];
+const BIRD_A = ["....##........","....###.......","..######......","##########....","....########..","....######....","....####......"];
+const BIRD_B = ["....######....","....########..","##########....","..######......","....###.......","....##........",".............."];
+
+function sprite(g, x, y, col) {
+  ctx.fillStyle = col;
+  for (let r = 0; r < g.length; r++)
+    for (let c = 0; c < g[r].length; c++)
+      if (g[r][c] === '#') ctx.fillRect(Math.round(x + c * P), Math.round(y + r * P), P, P);
+}
+
+let hi = 0;
+try { hi = parseInt(localStorage.getItem('dino-hi') || '0', 10) || 0; } catch (e) {}
+
+let state, dino, obs, clouds, specks, speed, score, t, nextGap, ducking;
+function reset() {
+  state = 'ready'; speed = 6; score = 0; t = 0; nextGap = 60; ducking = false;
+  dino = { x: 70, y: 0, vy: 0 };
+  obs = [];
+  clouds = [{x: 200, y: 50}, {x: 520, y: 30}, {x: 800, y: 70}];
+  specks = Array.from({length: 40}, () => ({x: Math.random() * W, y: GROUND + 6 + Math.floor(Math.random() * 3) * 6, w: [4, 8, 12][Math.floor(Math.random() * 3)]}));
+}
+reset();
+
+function jump() {
+  if (state === 'ready') { state = 'run'; }
+  if (state === 'over') { reset(); state = 'run'; return; }
+  if (dino.y === 0) dino.vy = 15.5;
+}
+addEventListener('keydown', e => {
+  if (['Space', 'ArrowUp', 'KeyW'].includes(e.code)) { e.preventDefault(); jump(); }
+  if (e.code === 'ArrowDown' || e.code === 'KeyS') { e.preventDefault(); ducking = true; if (dino.y > 0) dino.vy -= 6; }
+});
+addEventListener('keyup', e => { if (e.code === 'ArrowDown' || e.code === 'KeyS') ducking = false; });
+cv.addEventListener('pointerdown', e => { e.preventDefault(); jump(); });
+
+function spawn() {
+  if (score > 300 && Math.random() < 0.25) {
+    const ys = [GROUND - 28 - 30, GROUND - 28 - 70, GROUND - 28 - 4];
+    obs.push({ kind: 'bird', x: W + 20, y: ys[Math.floor(Math.random() * 3)], w: 14 * P, h: 7 * P });
+  } else {
+    const g = CACTI[Math.floor(Math.random() * CACTI.length)];
+    obs.push({ kind: 'cactus', g, x: W + 20, y: GROUND - g.length * P + 2, w: g[0].length * P, h: g.length * P });
+  }
+  nextGap = Math.max(38, 70 + Math.random() * 60 - speed * 2);
+}
+
+function hit(a, b) {
+  return a.x < b.x + b.w - 6 && a.x + a.w - 6 > b.x && a.y < b.y + b.h - 4 && a.y + a.h - 4 > b.y;
+}
+
+function loop() {
+  t++;
+  if (state === 'run') {
+    speed = 6 + Math.min(8, score / 250);
+    score += 0.15 * speed / 6 * 1.6;
+    dino.vy -= 0.85; dino.y += dino.vy;
+    if (dino.y <= 0) { dino.y = 0; dino.vy = 0; }
+    if (--nextGap <= 0) spawn();
+    obs.forEach(o => o.x -= speed);
+    obs = obs.filter(o => o.x > -80);
+    clouds.forEach(c => { c.x -= speed * 0.2; if (c.x < -80) { c.x = W + Math.random() * 200; c.y = 25 + Math.random() * 60; } });
+    specks.forEach(s => { s.x -= speed; if (s.x < -12) s.x += W + 12; });
+    const duck = ducking && dino.y === 0;
+    const box = duck ? { x: dino.x, y: GROUND - 10 * P, w: 26 * P, h: 10 * P }
+                     : { x: dino.x + 8, y: GROUND - 17 * P - dino.y, w: 15 * P, h: 17 * P };
+    for (const o of obs) if (hit(box, o)) {
+      state = 'over';
+      if (Math.floor(score) > hi) { hi = Math.floor(score); try { localStorage.setItem('dino-hi', hi); } catch (e) {} }
+    }
+  }
+
+  // draw
+  ctx.fillStyle = '#080808'; ctx.fillRect(0, 0, W, H);
+  clouds.forEach(c => sprite(["....####....","..########..","############"], c.x, c.y, '#2e2e2e'));
+  ctx.fillStyle = '#ddd'; ctx.fillRect(0, GROUND, W, 2);
+  ctx.fillStyle = '#555'; specks.forEach(s => ctx.fillRect(s.x, s.y, s.w, 2));
+  obs.forEach(o => {
+    if (o.kind === 'cactus') sprite(o.g, o.x, o.y, '#fff');
+    else sprite(Math.floor(t / 12) % 2 ? BIRD_A : BIRD_B, o.x, o.y, '#fff');
+  });
+  const run = state === 'run' && dino.y === 0;
+  if (ducking && dino.y === 0 && state === 'run') {
+    sprite(DUCK, dino.x, GROUND - DUCK.length * P + 2, '#fff');
+  } else {
+    const y = GROUND - (DINO.length + 3) * P + 2 - dino.y;
+    sprite(DINO, dino.x, y, '#fff');
+    sprite(run && Math.floor(t / 6) % 2 ? LEG_B : LEG_A, dino.x, y + DINO.length * P, '#fff');
+  }
+
+  ctx.font = '16px ui-monospace, Menlo, Consolas, monospace';
+  ctx.textAlign = 'right'; ctx.fillStyle = '#888';
+  ctx.fillText('HI ' + String(hi).padStart(5, '0'), W - 120, 32);
+  ctx.fillStyle = '#fff';
+  ctx.fillText(String(Math.floor(score)).padStart(5, '0'), W - 24, 32);
+  ctx.textAlign = 'center';
+  if (state === 'ready') {
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 22px ui-monospace, Menlo, Consolas, monospace';
+    ctx.fillText('PRESS SPACE OR TAP TO START', W / 2, 110);
+  }
+  if (state === 'over') {
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 30px ui-monospace, Menlo, Consolas, monospace';
+    ctx.fillText('G A M E   O V E R', W / 2, 100);
+    ctx.font = '16px ui-monospace, Menlo, Consolas, monospace'; ctx.fillStyle = '#999';
+    ctx.fillText('press space or tap to restart', W / 2, 132);
+  }
+  requestAnimationFrame(loop);
+}
+loop();
+</script>
+</body>
+</html>

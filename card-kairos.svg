@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="230" viewBox="0 0 440 230">
+<style>
+  .n { font: 800 24px -apple-system, 'Segoe UI', Inter, Helvetica, Arial, sans-serif; fill: #fff; }
+  .k { font: 12px ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace; fill: #888; letter-spacing: 1px; }
+  .d { font: 13.5px -apple-system, 'Segoe UI', Inter, Helvetica, Arial, sans-serif; fill: #bdbdbd; }
+  .t { font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace; fill: #ddd; }
+  .b { font: 800 11px ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace; fill: #000; letter-spacing: 1px; }
+  .e { font: 700 13px ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace; fill: #000; }
+  .arrow { animation: nudge 1.4s ease-in-out infinite; }
+  .cur { animation: blink 1s steps(1) infinite; }
+  @keyframes nudge { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+  @keyframes blink { 50% { opacity: 0; } }
+</style>
+<rect x="1" y="1" width="438" height="228" rx="14" fill="#0a0a0a" stroke="#2f2f2f" stroke-width="1.5"/>
+<text x="24" y="40" class="k">02 // BRAND SITE</text>
+<rect x="295.6" y="22" width="120.39999999999999" height="24" rx="12" fill="#fff"/><text x="355.8" y="38.5" class="b" text-anchor="middle">BEST WEBSITE</text>
+<text x="24" y="76" class="n">KAIROS<tspan class="cur" fill="#fff">_</tspan></text>
+<text x="24" y="104" class="d">Concept luxury watch brand website with scroll-</text><text x="24" y="124" class="d">driven motion and custom 3D. Won Best Website at</text><text x="24" y="144" class="d">ACM Bennett.</text>
+<rect x="24" y="160" width="36.8" height="24" rx="4" fill="none" stroke="#444"/><text x="42.4" y="176.5" class="t" text-anchor="middle">3D</text><rect x="68.8" y="160" width="95.60000000000001" height="24" rx="4" fill="none" stroke="#444"/><text x="116.6" y="176.5" class="t" text-anchor="middle">Animation</text><rect x="172.4" y="160" width="104.0" height="24" rx="4" fill="none" stroke="#444"/><text x="224.4" y="176.5" class="t" text-anchor="middle">JavaScript</text>
+<line x1="1" y1="196" x2="439" y2="196" stroke="#222"/>
+<text x="24" y="217" class="k">github.com/brainnotfound401</text>
+<g transform="translate(290, 203)">
+  <rect width="128" height="22" rx="4" fill="#fff"/>
+  <text x="12" y="15.5" class="e">Explore repo</text>
+  <g class="arrow"><text x="106" y="15.5" class="e">&#8594;</text></g>
+</g>
+</svg>
