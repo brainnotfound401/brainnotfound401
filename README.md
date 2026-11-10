@@ -9,8 +9,8 @@
 <p align="center">
   <a href="https://github.com/brainnotfound401?tab=followers"><img src="https://img.shields.io/github/followers/brainnotfound401?label=FOLLOWERS&style=for-the-badge&color=ffffff&labelColor=000000&logo=github&logoColor=white" /></a>
   <img src="https://komarev.com/ghpvc/?username=brainnotfound401&label=PROFILE%20VIEWS&style=for-the-badge&color=000000" />
-  <a href="https://www.linkedin.com/in/YOUR-LINKEDIN/"><img src="https://img.shields.io/badge/LinkedIn-000000?style=for-the-badge&logo=linkedin&logoColor=white" /></a>
-  <a href="https://www.instagram.com/YOUR-INSTAGRAM/"><img src="https://img.shields.io/badge/Instagram-000000?style=for-the-badge&logo=instagram&logoColor=white" /></a>
+  <a href="https://www.linkedin.com/in/priyanshu-saxena-0a29a925b/"><img src="https://img.shields.io/badge/LinkedIn-000000?style=for-the-badge&logo=linkedin&logoColor=white" /></a>
+  <a href="https://www.instagram.com/priyanshu_saxena2008/"><img src="https://img.shields.io/badge/Instagram-000000?style=for-the-badge&logo=instagram&logoColor=white" /></a>
 </p>
 
 ---
@@ -38,12 +38,12 @@ $ cat about.txt
   <a href="https://github.com/brainnotfound401/kairos"><img src="./card-kairos.svg" width="49%" /></a>
 </p>
 <p align="center">
-  <a href="https://github.com/brainnotfound401/nit-nation"><img src="./card-nit-nation.svg" width="49%" /></a>
+  <a href="https://github.com/brainnotfound401/Nitnation"><img src="./card-nit-nation.svg" width="49%" /></a>
   <a href="https://github.com/brainnotfound401/easy-eyes"><img src="./card-easy-eyes.svg" width="49%" /></a>
 </p>
 <p align="center">
   <a href="https://github.com/brainnotfound401/assemble-26"><img src="./card-assemble-26.svg" width="49%" /></a>
-  <a href="https://github.com/brainnotfound401/kisan-setu"><img src="./card-kisan-setu.svg" width="49%" /></a>
+  <a href="https://github.com/brainnotfound401/KisanSetu"><img src="./card-kisan-setu.svg" width="49%" /></a>
 </p>
 
 ### `$ ./dino --run`
